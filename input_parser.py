@@ -1,0 +1,17 @@
+from url_parser import Parser
+from custom_errors import InputError
+
+class InputParser:
+  def __init__(self):
+    self.url_parser = Parser()
+  def parse(self, input):
+    result = []
+    fileNames = {}
+    for task in input:
+      parsed = self.url_parser.parse(task)
+      fname = parsed['file_name']
+      if fileNames.get(fname):
+        raise InputError(fname, 'duplicated file names')
+      fileNames[fname] = 1
+      result.append(parsed)
+    return result
