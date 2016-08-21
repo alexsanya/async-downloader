@@ -7,4 +7,6 @@ class WorkersFactory:
         for worker_type in self.workers_types_list:
             if worker_type.protocol == data['protocol']:
                 logging.debug(worker_type.protocol + ' worker created for url ' + data['url'])
-                return worker_type(worker_id, queue, data)
+                worker = worker_type(worker_id, queue, data)
+                worker.daemon = True
+                return worker

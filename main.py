@@ -7,6 +7,7 @@ from workers_pool import WorkersPool
 from workers_factory import WorkersFactory
 from http_worker import HttpWorker
 from https_worker import HttpsWorker
+from ftp_worker import FtpWorker
 from pathlib import Path
 
 
@@ -33,7 +34,7 @@ except Exception:
     print('Cannot open input file ', file_name)
     sys.exit(1)
 try:
-    workers_type_list = (HttpWorker, HttpsWorker)
+    workers_type_list = (HttpWorker, HttpsWorker, FtpWorker)
     input_parser = InputParser([w.protocol for w in workers_type_list], download_dir)
     tasks_list = input_parser.parse(lines)
     workers_pool = WorkersPool(WorkersFactory(workers_type_list))

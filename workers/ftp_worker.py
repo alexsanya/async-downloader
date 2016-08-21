@@ -1,34 +1,27 @@
-import os
 import logging
-import urllib.request
+from ftplib import FTP
 from abstract_worker import AbstractWorker
 
-class HttpWorker(AbstractWorker):
-    protocol = 'http'
-    
+class FtpWorker(AbstractWorker):
+    protocol = 'ftp'
+
     def run(self):
         logging.debug(self.protocol + ' worker started for file ' + self.data['file_name']);
+        ftp = FTP(self.data['host'])
         try:
-            connection = urllib.request.urlopen(self.data['url'])
-        except URLError:
+            ftp.login()
+        except Exception:
             self.queue.put((self.worker_id, 'failed'))
             return
         full_name = self.data['file_path'] / self.data['file_name']
-        file = full_name.open('wb')
-        file_size_dl = 0
-        block_sz = 8192
         try:
-            while True:
-                buffer = connection.read(block_sz)
-                if not buffer:
-                    break
-                file_size_dl += len(buffer)
-                file.write(buffer)
-                file.flush()
+            file = full_name.open('wb')
+            ftp.cwd(str(self.data['web_path']))
+            ftp.retrbinary('RETR ' + self.data['file_name'], file.write)
+            ftp.quit()
             file.close()
         except IOError:
             os.remove(full_name)
             self.queue.put((self.worker_id, 'failed'))
-
         logging.debug(self.protocol + ' worker finished with file ' + self.data['file_name']);
         self.queue.put((self.worker_id, 'finished'))
