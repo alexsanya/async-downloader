@@ -7,16 +7,34 @@ from workers_pool import WorkersPool
 from workers_factory import WorkersFactory
 from http_worker import HttpWorker
 from https_worker import HttpsWorker
+from pathlib import Path
+
+
+def setup_download_dir(dir_name):
+   download_dir = Path(dir_name)
+   if not download_dir.exists():
+       download_dir.mkdir()
+   return download_dir
 
 def on_finish():
   logging.info('All tasks done.');
   print('Everything is done. Enjoy your results')
 
-file_name = "input.txt"
-lines = open(file_name).read().splitlines()
+if len(sys.argv) < 3:
+  print('Command line argument missing')
+  print('Usage: python main.py {input_file} {download_dir}')
+  sys.exit(1)
+
+file_name = sys.argv[1]
+download_dir = setup_download_dir(sys.argv[2])
+try:
+  lines = open(file_name).read().splitlines()
+except Exception:
+  print('Cannot open input file ', file_name)
+  sys.exit(1)
 try:
   workers_type_list = (HttpWorker, HttpsWorker)
-  input_parser = InputParser([w.protocol for w in workers_type_list])
+  input_parser = InputParser([w.protocol for w in workers_type_list], download_dir)
   tasks_list = input_parser.parse(lines)
   workers_pool = WorkersPool(WorkersFactory(workers_type_list))
 

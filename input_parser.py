@@ -3,8 +3,8 @@ from url_parser import Parser
 from custom_errors import InputError
 
 class InputParser:
-  def __init__(self, supported_protocols):
-    self.url_parser = Parser()
+  def __init__(self, supported_protocols, fpath):
+    self.url_parser = Parser(fpath)
     self.supported_protocols = supported_protocols
   def parse(self, lines):
     result = []

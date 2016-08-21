@@ -1,13 +1,15 @@
 import sys
 sys.path.insert(0,'..')
+import os
 import unittest
+from pathlib import Path
 from custom_errors import InputError
-from url_parser import Parser 
+from url_parser import Parser
 
 class TestUrlParser(unittest.TestCase):
 
   def setUp(self):
-    self.parser = Parser()
+    self.parser = Parser(Path('.'))
 
   def test_parsing_simple_url(self):
     path = 'http://domain.zone/file.ext'

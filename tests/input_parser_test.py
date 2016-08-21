@@ -1,13 +1,14 @@
 import sys
 sys.path.insert(0,'..')
 import unittest
+from pathlib import Path
 from custom_errors import InputError
 from input_parser import InputParser
 
 class TestUrlParser(unittest.TestCase):
 
     def setUp(self):
-      self.parser = InputParser(['http', 'https', 'ftp', 'sftp'])
+      self.parser = InputParser(['http', 'https', 'ftp', 'sftp'], Path('.'))
 
     def test_parsing_input_success(self):
       tasks_list = ['http://domain.zone/first.ext' , 'sftp://185.372.56.17/second.ext', 'ftp://domain.zone/third.ext']

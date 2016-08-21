@@ -13,7 +13,7 @@ class HttpWorker(AbstractWorker):
     except URLError:
       self.queue.put((self.worker_id, 'failed'))
       return
-    file = open(self.data['file_name'], 'wb')
+    file = self.data['file_path'].open('wb')
     file_size_dl = 0
     block_sz = 8192
     try:
@@ -26,7 +26,7 @@ class HttpWorker(AbstractWorker):
         file.flush()
       file.close()
     except IOError:
-      os.remove(self.data['file_name'])
+      os.remove(self.data['file_path'])
       self.queue.put((self.worker_id, 'failed'))
     logging.debug(self.protocol + ' worker finished with file ' + self.data['file_name']);
     self.queue.put((self.worker_id, 'finished'))
