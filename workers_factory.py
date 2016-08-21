@@ -5,6 +5,6 @@ class WorkersFactory:
     self.workers_types_list = workers_types_list
   def create_worker(self, worker_id, queue, data):
     for worker_type in self.workers_types_list:
-      if worker_type.protokol == data['protocol']:
-        logging.debug(worker_type.protokol + ' worker created for url ' + data['url'])
+      if worker_type.protocol == data['protocol']:
+        logging.debug(worker_type.protocol + ' worker created for url ' + data['url'])
         return worker_type(worker_id, queue, data)

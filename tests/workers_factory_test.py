@@ -7,17 +7,17 @@ from workers_factory import WorkersFactory
 reportCreate = Mock()
 
 class HttpWorker:
-  protokol = 'http'
+  protocol = 'http'
   def __init__(self, worker_id, queue, data):
     reportCreate('http')
 
 class FtpWorker:
-  protokol = 'ftp'
+  protocol = 'ftp'
   def __init__(self, worker_id, queue, data):
     reportCreate('ftp')
 
 class SftpWorker:
-  protokol = 'sftp'
+  protocol = 'sftp'
   def __init__(self, worker_id, queue, data):
     reportCreate('sftp')
 
