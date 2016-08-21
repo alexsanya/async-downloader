@@ -8,17 +8,17 @@ reportCreate = Mock()
 
 class HttpWorker:
   protokol = 'http'
-  def __init__(self, data):
+  def __init__(self, worker_id, queue, data):
     reportCreate('http')
 
 class FtpWorker:
   protokol = 'ftp'
-  def __init__(self, data):
+  def __init__(self, worker_id, queue, data):
     reportCreate('ftp')
 
 class SftpWorker:
   protokol = 'sftp'
-  def __init__(self, data):
+  def __init__(self, worker_id, queue, data):
     reportCreate('sftp')
 
 class TestWorkersFactory(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestWorkersFactory(unittest.TestCase):
   def test_create_right_type_of_worker(self):
     workers_factory = WorkersFactory((HttpWorker, FtpWorker, SftpWorker))
     task = {'protocol': 'http', 'filename': 'fist.txt', 'url': 'http://domain.net/fist.txt'}
-    worker = workers_factory.create_worker(task)
+    worker = workers_factory.create_worker('', Mock(), task)
     reportCreate.assert_called_once_with('http')
 
 if __name__ == '__main__':

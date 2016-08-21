@@ -11,7 +11,7 @@ class InputParser:
       parsed = self.url_parser.parse(task)
       fname = parsed['file_name']
       if fileNames.get(fname):
-        raise InputError(fname, 'duplicated file names')
+        raise InputError('Duplicated file names found', fname)
       fileNames[fname] = True
       result.append(parsed)
     return result
