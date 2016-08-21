@@ -30,6 +30,6 @@ class HttpWorker(AbstractWorker):
         except IOError:
             os.remove(str(full_name))
             self.queue.put((self.worker_id, {'sig': 'failed'}))
-
+            return
         logging.debug(self.protocol + ' worker finished with file ' + self.data['file_name']);
         self.queue.put((self.worker_id, {'sig': 'finished'}))
