@@ -28,7 +28,7 @@ if len(sys.argv) < 3:
 file_name = sys.argv[1]
 download_dir = setup_download_dir(sys.argv[2])
 try:
-  lines = open(file_name).read().splitlines()
+  lines = [ l for l in open(file_name).read().splitlines() if l != '']
 except Exception:
   print('Cannot open input file ', file_name)
   sys.exit(1)

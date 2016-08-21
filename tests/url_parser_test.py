@@ -46,7 +46,6 @@ class TestUrlParser(unittest.TestCase):
     self.assertTrue(result['url'] == path)
     self.assertTrue(result['file_name'] == 'file.ext')
 
-
   def test_parsing_url_without_filename(self):
     path = 'http://domain.zone'
     with self.assertRaises(InputError):
