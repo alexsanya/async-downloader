@@ -10,6 +10,7 @@ from https_worker import HttpsWorker
 from ftp_worker import FtpWorker
 from pathlib import Path
 
+logging.basicConfig(level=logging.INFO)
 
 def setup_download_dir(dir_name):
     download_dir = Path(dir_name)

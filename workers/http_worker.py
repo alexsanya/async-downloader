@@ -11,7 +11,7 @@ class HttpWorker(AbstractWorker):
         try:
             connection = urllib.request.urlopen(self.data['url'])
         except URLError:
-            self.queue.put((self.worker_id, 'failed'))
+            self.queue.put((self.worker_id, {'sig': 'failed'}))
             return
         full_name = self.data['file_path'] / self.data['file_name']
         file = full_name.open('wb')
@@ -24,11 +24,12 @@ class HttpWorker(AbstractWorker):
                     break
                 file_size_dl += len(buffer)
                 file.write(buffer)
+                self.queue.put((self.worker_id, {'sig': 'transfered', 'data': file_size_dl}))
                 file.flush()
             file.close()
         except IOError:
             os.remove(full_name)
-            self.queue.put((self.worker_id, 'failed'))
+            self.queue.put((self.worker_id, {'sig': 'failed'}))
 
         logging.debug(self.protocol + ' worker finished with file ' + self.data['file_name']);
-        self.queue.put((self.worker_id, 'finished'))
+        self.queue.put((self.worker_id, {'sig': 'finished'}))

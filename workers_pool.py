@@ -24,13 +24,15 @@ class WorkersPool:
     def wait_till_the_end(self, callback):
         while True:
             worker_id, message = self.queue.get()
-            if message == 'finished':
+            if message['sig'] == 'finished':
                 self.jobs_number -= 1
                 logging.debug('Worker finished. Jobs number: ' + str(self.jobs_number))
-            if message == 'failed':
+            if message['sig'] == 'failed':
                 logging.debug('Worker failed. Jobs number: ' + str(self.jobs_number))
                 self.jobs_number -= 1
                 self.start_new_worker(self.workers[worker_id])
+            if message['sig'] == 'transfered':
+                logging.info('File ' + self.workers[worker_id]['file_name'] + ' transferred ' + str(message['data']))
             self.queue.task_done()
             if not self.jobs_number:
                 callback()

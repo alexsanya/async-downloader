@@ -9,7 +9,7 @@ failingWorkerCreated = Mock()
 
 class MockWorkersFactory:
     def create_worker(self, worker_id, queue, task):
-        queue.put((worker_id, 'finished'))
+        queue.put((worker_id, {'sig': 'finished'}))
         return Mock()
 
 class MockFailingWorkersFactory:
