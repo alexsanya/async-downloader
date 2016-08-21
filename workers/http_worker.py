@@ -8,7 +8,11 @@ class HttpWorker(AbstractWorker):
     
   def start(self):
     logging.debug(self.protocol + ' worker started for file ' + self.data['file_name']);
-    connection = urllib.request.urlopen(self.data['url'])
+    try:
+      connection = urllib.request.urlopen(self.data['url'])
+    except URLError:
+      self.queue.put((self.worker_id, 'failed'))
+      return
     file = open(self.data['file_name'], 'wb')
     file_size_dl = 0
     block_sz = 8192
