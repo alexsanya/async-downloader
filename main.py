@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0,'./workers')
+import logging
 from custom_errors import InputError
 from input_parser import InputParser
 from workers_pool import WorkersPool
@@ -8,6 +9,7 @@ from http_worker import HttpWorker
 from https_worker import HttpsWorker
 
 def on_finish():
+  logging.info('All tasks done.');
   print('Everything is done. Enjoy your results')
 
 file_name = "input.txt"
@@ -23,6 +25,7 @@ try:
 except InputError as inst:
   print('Program terminated due to error')
   (name, message) = inst.args
+  logging.error('Input error', name, message)
   print(name, message)
 
 
