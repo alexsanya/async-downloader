@@ -23,7 +23,7 @@ class SftpWorker:
 
 class TestWorkersFactory(unittest.TestCase):
   
-  def test_create_worker(self):
+  def test_create_right_type_of_worker(self):
     workers_factory = WorkersFactory((HttpWorker, FtpWorker, SftpWorker))
     task = {'protocol': 'http', 'filename': 'fist.txt', 'url': 'http://domain.net/fist.txt'}
     worker = workers_factory.create_worker(task)
