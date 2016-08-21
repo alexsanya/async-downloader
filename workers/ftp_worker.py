@@ -1,3 +1,4 @@
+import os
 import logging
 from ftplib import FTP
 from abstract_worker import AbstractWorker
@@ -26,8 +27,8 @@ class FtpWorker(AbstractWorker):
             ftp.retrbinary('RETR ' + self.data['file_name'], write)
             ftp.quit()
             file.close()
-        except IOError:
-            os.remove(full_name)
+        except Exception:
+            os.remove(str(full_name))
             self.queue.put((self.worker_id, {'sig': 'failed'}))
         logging.debug(self.protocol + ' worker finished with file ' + self.data['file_name']);
         self.queue.put((self.worker_id, {'sig': 'finished'}))

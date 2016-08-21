@@ -1,2 +1,7 @@
 https://slack-files.com/T02TLTZM1-F1NQLEUMA-240abaf6e1
 ftp://localhost/Docums.tar.gz
+ftp://localhost/NodeJS-142.2650.zip
+ftp://localhost/node-v6.3.1-linux-x64.tar.xz
+ftp://localhost/emberjs_applications-sample.pdf
+ftp://localhost/Mountain_Lion_10.8_InstallESD.dmg
+

@@ -18,10 +18,10 @@ class MockFailingWorkersFactory:
         if task['file_name'] == 'fail':
             failingWorkerCreated()
         if self.attempts < 3 and task['file_name'] == 'fail':
-            queue.put((worker_id, 'failed'))
+            queue.put((worker_id, {'sig' :'failed'}))
             self.attempts += 1
             return Mock()
-        queue.put((worker_id, 'finished'))
+        queue.put((worker_id, {'sig': 'finished'}))
         return Mock()
 
 class TestWorkersFactory(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestWorkersFactory(unittest.TestCase):
         workers_pool = WorkersPool(MockWorkersFactory())
         workers_pool.create_workers(self.tasks_list)
         mock_on_finished = Mock()
-        workers_pool.wait_till_the_end(mock_on_finished)
+        workers_pool.wait_till_the_end(Mock(), mock_on_finished)
         self.assertEqual(mock_on_finished.call_count, 1);
 
     def test_retry_on_worker_fails(self):
@@ -50,7 +50,7 @@ class TestWorkersFactory(unittest.TestCase):
         self.tasks_list[0]['file_name'] = 'fail'
         workers_pool.create_workers(self.tasks_list)
         mock_on_finished = Mock()
-        workers_pool.wait_till_the_end(mock_on_finished)
+        workers_pool.wait_till_the_end(Mock(), mock_on_finished)
 
         self.assertEqual(mock_on_finished.call_count, 1);
         self.assertEqual(failingWorkerCreated.call_count, 4);

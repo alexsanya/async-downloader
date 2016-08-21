@@ -21,7 +21,7 @@ class WorkersPool:
         for task in tasks:
             self.start_new_worker(task)
 
-    def wait_till_the_end(self, callback):
+    def wait_till_the_end(self, on_update, on_finish):
         while True:
             worker_id, message = self.queue.get()
             if message['sig'] == 'finished':
@@ -32,8 +32,8 @@ class WorkersPool:
                 self.jobs_number -= 1
                 self.start_new_worker(self.workers[worker_id])
             if message['sig'] == 'transfered':
-                logging.info('File ' + self.workers[worker_id]['file_name'] + ' transferred ' + str(message['data']))
+                on_update(self.workers[worker_id]['file_name'], str(message['data']))
             self.queue.task_done()
             if not self.jobs_number:
-                callback()
+                on_finish()
                 return
