@@ -6,6 +6,9 @@ from urllib.parse import urlparse
 from custom_errors import InputError
 
 class Parser:
+    """
+    Parsing of url string and validation
+    """
     def __init__(self, fpath):
         self.fpath = fpath
 

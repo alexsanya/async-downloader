@@ -11,7 +11,7 @@ class TestUrlParser(unittest.TestCase):
         self.parser = InputParser(['http', 'https', 'ftp', 'sftp'], Path('.'))
 
     def test_parsing_input_success(self):
-        tasks_list = ['http://domain.zone/first.ext' , 'sftp://185.372.56.17/second.ext', 'ftp://domain.zone/third.ext']
+        tasks_list = ['http://domain.zone/first.ext', 'sftp://185.372.56.17/second.ext', 'ftp://domain.zone/third.ext']
         result = self.parser.parse(tasks_list)
         self.assertEqual(len(result), 3)
         self.assertEqual(result[0]['file_name'], 'first.ext')
@@ -24,17 +24,17 @@ class TestUrlParser(unittest.TestCase):
             self.assertEqual(result[i]['url'], tasks_list[i])
 
     def test_parsing_input_file_name_invalid(self):
-        tasks_list = ['http://domain.zone/first&.ext' , 'sftp://185.372.56.17/', 'ftp://domain.zone/third.ext']
+        tasks_list = ['http://domain.zone/first&.ext', 'sftp://185.372.56.17/', 'ftp://domain.zone/third.ext']
         with self.assertRaises(InputError):
             result = self.parser.parse(tasks_list)
 
     def test_parsing_input_file_name_repeat(self):
-        tasks_list = ['http://domain.zone/first.ext' , 'sftp://185.372.56.17/first.ext', 'ftp://domain.zone/third.ext']
+        tasks_list = ['http://domain.zone/first.ext', 'sftp://185.372.56.17/first.ext', 'ftp://domain.zone/third.ext']
         with self.assertRaises(InputError):
             result = self.parser.parse(tasks_list)
 
     def test_parsing_input_no_such_worker(self):
-        tasks_list = ['http://domain.zone/first.ext' , 'smb://185.372.56.17/second.ext', 'ftp://domain.zone/third.ext']
+        tasks_list = ['http://domain.zone/first.ext', 'smb://185.372.56.17/second.ext', 'ftp://domain.zone/third.ext']
         with self.assertRaises(InputError):
             result = self.parser.parse(tasks_list)
 

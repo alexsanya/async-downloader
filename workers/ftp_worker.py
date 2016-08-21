@@ -10,7 +10,6 @@ class FtpWorker(AbstractWorker):
         logging.debug(self.protocol + ' worker started for file ' + self.data['file_name']);
         ftp = FTP(self.data['host'])
         try:
-            ftp.connect('localhost', 2121)
             ftp.login()
         except Exception:
             self.queue.put((self.worker_id, {'sig': 'failed'}))

@@ -20,21 +20,21 @@ traffic_info = {}
 def setup_download_dir(dir_name):
     download_dir = Path(dir_name)
     if not download_dir.exists():
-       download_dir.mkdir()
+        download_dir.mkdir()
     return download_dir
 
 def print_there(x, y, text):
-     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (x, y, text))
-     sys.stdout.flush()
+    sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (x, y, text))
+    sys.stdout.flush()
 
 def on_update(file_name, bytes_download):
     traffic_info[file_name] = bytes_download
     line_number = 0
     for (file_name, traffic) in traffic_info.items():
         traffic_label = traffic + ' bytes\n'
-        print_there(OFFSET_TOP+line_number, OFFSET_LEFT, file_name + ':  ')
-        print_there(OFFSET_TOP+line_number, LINE_WIDTH-len(traffic_label), traffic_label)
-        line_number +=1
+        print_there(OFFSET_TOP + line_number, OFFSET_LEFT, file_name + ':  ')
+        print_there(OFFSET_TOP + line_number, LINE_WIDTH-len(traffic_label), traffic_label)
+        line_number += 1
 
 def on_finish():
     logging.info('All tasks done.');

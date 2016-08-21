@@ -3,6 +3,9 @@ from url_parser import Parser
 from custom_errors import InputError
 
 class InputParser:
+    """
+    Parsing of all input lines and validation on files duplicats
+    """
     def __init__(self, supported_protocols, fpath):
         self.url_parser = Parser(fpath)
         self.supported_protocols = supported_protocols

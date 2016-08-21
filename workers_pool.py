@@ -3,6 +3,10 @@ import logging
 from queue import Queue
 
 class WorkersPool:
+    """Master-process for all workers
+    Attributes:
+        WorkersFactory -- provider of workers.  The exact type of new worker based on protocol
+    """
     def __init__(self, WorkersFactory):
         self.queue = Queue()
         self.jobs_number = 0

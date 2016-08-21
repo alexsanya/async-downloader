@@ -35,15 +35,15 @@ class TestWorkersFactory(unittest.TestCase):
     def test_workers_creation(self):
         workers_pool = WorkersPool(Mock())
         workers_pool.start_new_worker = Mock()
-        workers_pool.create_workers(self.tasks_list);
-        self.assertEqual(workers_pool.start_new_worker.call_count, 3);
+        workers_pool.create_workers(self.tasks_list)
+        self.assertEqual(workers_pool.start_new_worker.call_count, 3)
 
     def test_call_stop_on_all_workers_finished(self):
         workers_pool = WorkersPool(MockWorkersFactory())
         workers_pool.create_workers(self.tasks_list)
         mock_on_finished = Mock()
         workers_pool.wait_till_the_end(Mock(), mock_on_finished)
-        self.assertEqual(mock_on_finished.call_count, 1);
+        self.assertEqual(mock_on_finished.call_count, 1)
 
     def test_retry_on_worker_fails(self):
         workers_pool = WorkersPool(MockFailingWorkersFactory())
@@ -52,8 +52,8 @@ class TestWorkersFactory(unittest.TestCase):
         mock_on_finished = Mock()
         workers_pool.wait_till_the_end(Mock(), mock_on_finished)
 
-        self.assertEqual(mock_on_finished.call_count, 1);
-        self.assertEqual(failingWorkerCreated.call_count, 4);
+        self.assertEqual(mock_on_finished.call_count, 1)
+        self.assertEqual(failingWorkerCreated.call_count, 4)
 
 if __name__ == '__main__':
     unittest.main()
