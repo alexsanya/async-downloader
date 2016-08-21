@@ -14,10 +14,10 @@ def on_finish():
 
 file_name = "input.txt"
 lines = open(file_name).read().splitlines()
-input_parser = InputParser()
 try:
-  tasks_list = input_parser.parse(lines)
   workers_type_list = (HttpWorker, HttpsWorker)
+  input_parser = InputParser([w.protocol for w in workers_type_list])
+  tasks_list = input_parser.parse(lines)
   workers_pool = WorkersPool(WorkersFactory(workers_type_list))
 
   workers_pool.create_workers(tasks_list)
