@@ -14,5 +14,5 @@ class Parser:
     pattern = r'[\w,\s-]+(\.?[\w,\s-]+)?\Z'
     if not re.match(pattern, file_name):
       logging.error('Invalid file name in line ' + path)
-      raise InputError('Invalid file name discovered: ', file_name)
+      raise InputError(file_name, 'Invalid file name discovered: ')
     return {'protocol': parse_result.scheme, 'url': path, 'file_name': file_name}

@@ -15,7 +15,7 @@ class InputParser:
       fname = parsed['file_name']
       if fileNames.get(fname):
         logging.error('Duplicated file names ' + fname)
-        raise InputError('Duplicated file names found ' + fname)
+        raise InputError(fname, 'Duplicated file names found')
       fileNames[fname] = True
       result.append(parsed)
     return result
